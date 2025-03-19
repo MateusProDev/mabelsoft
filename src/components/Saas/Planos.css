@@ -1,0 +1,314 @@
+/* Reset básico para consistência */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif; /* Tipografia moderna */
+  }
+  
+  /* Container principal */
+  .planos-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%); /* Gradiente escuro e elegante */
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+    overflow-x: hidden;
+  }
+  
+  /* Título principal */
+  .planos-container h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 50px;
+    text-align: center;
+    background: linear-gradient(to right, #00ddeb, #ff6b6b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 1px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Lista de planos */
+  .planos-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    width: 100%;
+  }
+  
+  /* Card de plano */
+  .plano-card {
+    background: rgba(255, 255, 255, 0.05); /* Fundo semi-transparente */
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px); /* Efeito vidro fosco */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  .plano-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .plano-card h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #00ddeb; /* Azul vibrante */
+    margin-bottom: 15px;
+  }
+  
+  .plano-card .preco {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ff6b6b; /* Vermelho suave */
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+  
+  .plano-card ul {
+    list-style: none;
+    margin-bottom: 25px;
+  }
+  
+  .plano-card ul li {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 10px 0;
+    position: relative;
+    padding-left: 25px;
+  }
+  
+  .plano-card ul li::before {
+    content: "✔";
+    color: #00ddeb;
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+  }
+  
+  /* Botão do card */
+  .plano-card button {
+    background: linear-gradient(45deg, #00ddeb, #007bff);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 221, 235, 0.4);
+  }
+  
+  .plano-card button:hover {
+    background: linear-gradient(45deg, #007bff, #00ddeb);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 221, 235, 0.6);
+  }
+  
+  /* Container do formulário */
+  .formulario-container {
+    margin-top: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.5s ease-in-out;
+  }
+  
+  .formulario-container h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #00ddeb;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Estilo do formulário */
+  .formulario-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .formulario-container input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 1rem;
+    color: #ffffff;
+    transition: all 0.3s ease;
+  }
+  
+  .formulario-container input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .formulario-container input:focus {
+    border-color: #00ddeb;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 221, 235, 0.3);
+  }
+  
+  /* Botão do formulário */
+  .formulario-container button {
+    background: linear-gradient(45deg, #ff6b6b, #ff4757);
+    border: none;
+    border-radius: 50px;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  }
+  
+  .formulario-container button:hover {
+    background: linear-gradient(45deg, #ff4757, #ff6b6b);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+  }
+  
+  /* Footer */
+  .planos-footer {
+    margin-top: auto; /* Empurra o footer para o final da página */
+    padding: 20px 0;
+    width: 100%;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .planos-footer p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.5px;
+  }
+  
+  /* Animações */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .planos-container h2 {
+      font-size: 2rem;
+    }
+  
+    .planos-lista {
+      grid-template-columns: 1fr;
+      padding: 0 10px;
+    }
+  
+    .plano-card {
+      padding: 20px;
+    }
+  
+    .plano-card h3 {
+      font-size: 1.6rem;
+    }
+  
+    .plano-card .preco {
+      font-size: 1.3rem;
+    }
+  
+    .plano-card ul li {
+      font-size: 0.9rem;
+    }
+  
+    .formulario-container {
+      padding: 30px;
+      margin: 40px 10px 0;
+    }
+  
+    .formulario-container h3 {
+      font-size: 1.4rem;
+    }
+  
+    .planos-footer p {
+      font-size: 0.85rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .planos-container h2 {
+      font-size: 1.8rem;
+    }
+  
+    .plano-card {
+      padding: 15px;
+    }
+  
+    .plano-card h3 {
+      font-size: 1.4rem;
+    }
+  
+    .plano-card .preco {
+      font-size: 1.2rem;
+    }
+  
+    .plano-card ul li {
+      font-size: 0.85rem;
+    }
+  
+    .plano-card button {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+  
+    .formulario-container {
+      padding: 20px;
+    }
+  
+    .formulario-container h3 {
+      font-size: 1.2rem;
+    }
+  
+    .formulario-container input {
+      padding: 12px;
+      font-size: 0.9rem;
+    }
+  
+    .formulario-container button {
+      padding: 12px;
+      font-size: 1rem;
+    }
+  
+    .planos-footer p {
+      font-size: 0.8rem;
+    }
+  }
