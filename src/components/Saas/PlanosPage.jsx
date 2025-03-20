@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { db } from "../../firebase/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import "./Planos.css";
+import ListaPlanos from "./ListaPlanos";
 
 const PlanosPage = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -11,44 +13,12 @@ const PlanosPage = () => {
     telefone: "",
     empresa: "",
   });
-
-  const planos = [
-    {
-      nome: "Free",
-      preco: "Gratuito",
-      descricao: [
-        "Até 50 produtos",
-        "Sem opção de domínio personalizado",
-        "Sem sistema de estoque",
-        "Suporte via FAQ",
-      ],
-    },
-    {
-      nome: "Plus",
-      preco: "R$ 34,99/mês",
-      descricao: [
-        "Loja online completa",
-        "Sistema de estoque incluso",
-        "Domínio personalizado",
-        "Suporte horário comercial",
-        "Até 700 produtos",
-      ],
-    },
-    {
-      nome: "Premium",
-      preco: "R$ 64,99/mês",
-      descricao: [
-        "Tudo do plano Plus",
-        "Suporte 24h",
-        "Até 2.000 produtos",
-        "Relatórios avançados",
-      ],
-    },
-  ];
+  const [cadastroSucesso, setCadastroSucesso] = useState(false); // Estado para controlar o sucesso do cadastro
 
   const handleSelectPlan = (plano) => {
     setSelectedPlan(plano);
     setShowPlans(false);
+    setCadastroSucesso(false); // Reseta o estado ao selecionar um novo plano
   };
 
   const handleInputChange = (e) => {
@@ -56,43 +26,38 @@ const PlanosPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const mensagem = `Olá! Quero contratar o plano ${selectedPlan.nome}.\n\nMeus dados:\nNome: ${formData.nome}\nEmail: ${formData.email}\nTelefone: ${formData.telefone}\nEmpresa: ${formData.empresa}`;
-    const whatsappURL = `https://wa.me/seu-numero-aqui?text=${encodeURIComponent(
-      mensagem
-    )}`;
-    window.open(whatsappURL, "_blank");
+    try {
+      // Salva os dados no Firestore
+      await addDoc(collection(db, "cadastros"), {
+        ...formData,
+        plano: selectedPlan.nome,
+        dataCadastro: serverTimestamp(),
+      });
+
+      // Define o cadastro como bem-sucedido e limpa o formulário
+      setCadastroSucesso(true);
+      setFormData({ nome: "", email: "", telefone: "", empresa: "" });
+    } catch (error) {
+      console.error("Erro ao cadastrar: ", error);
+      alert("Ocorreu um erro ao cadastrar. Tente novamente.");
+    }
   };
 
   return (
-    <div className="planos-container">
-      <h2>Escolha o Melhor Plano para Você</h2>
-      {showPlans && (
-        <div className="planos-lista">
-          {planos.map((plano, index) => (
-            <div key={index} className="plano-card">
-              <h3>{plano.nome}</h3>
-              <p className="preco">{plano.preco}</p>
-              <ul>
-                {plano.descricao.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-              <button onClick={() => handleSelectPlan(plano)}>Selecionar</button>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="planos-page-container">
+      <h2 className="planos-page-title">Escolha Seu Futuro Agora</h2>
+      {showPlans && <ListaPlanos selecionarPlano={handleSelectPlan} />}
 
-      {selectedPlan && (
-        <div className="formulario-container">
-          <h3>Preencha seus dados para contratar o plano {selectedPlan.nome}</h3>
+      {selectedPlan && !cadastroSucesso && (
+        <div className="planos-page-form">
+          <h3>Ative o Plano {selectedPlan.nome}</h3>
           <form onSubmit={handleSubmit}>
             <input
               type="text"
               name="nome"
-              placeholder="Nome"
+              placeholder="Seu Nome"
               value={formData.nome}
               onChange={handleInputChange}
               required
@@ -100,7 +65,7 @@ const PlanosPage = () => {
             <input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder="Seu Email"
               value={formData.email}
               onChange={handleInputChange}
               required
@@ -108,7 +73,7 @@ const PlanosPage = () => {
             <input
               type="tel"
               name="telefone"
-              placeholder="Telefone"
+              placeholder="Seu WhatsApp"
               value={formData.telefone}
               onChange={handleInputChange}
               required
@@ -116,16 +81,26 @@ const PlanosPage = () => {
             <input
               type="text"
               name="empresa"
-              placeholder="Nome da Empresa"
+              placeholder="Nome da Empresa (opcional)"
               value={formData.empresa}
               onChange={handleInputChange}
             />
-            <button type="submit">Entrar em Contato pelo WhatsApp</button>
+            <button type="submit">Cadastrar</button>
           </form>
         </div>
       )}
 
-      <footer className="planos-footer">
+      {selectedPlan && cadastroSucesso && (
+        <div className="mensagem-boas-vindas-container">
+          <h3 className="mensagem-boas-vindas">Bem-vindo(a) ao {selectedPlan.nome}!</h3>
+          <p className="mensagem-agradecimento">
+            Obrigado pelo seu cadastro! Entraremos em contato em breve para dar continuidade à sua jornada.
+          </p>
+          <div className="confetti-animation"></div>
+        </div>
+      )}
+
+      <footer className="planos-page-footer">
         <p>Todos os direitos reservados © 2025 MabelSoft</p>
       </footer>
     </div>

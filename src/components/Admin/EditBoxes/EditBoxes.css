@@ -1,292 +1,393 @@
-/* Estilos gerais */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: transparent;
+/* Reset e Estilo Geral */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-.edit-boxes {
-  max-width: 900px;
-  margin: 0 auto;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.edit-boxes-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 15px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Título */
-.edit-boxes h2 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-  text-align: center;
+.edit-boxes-container h2 {
+  font-size: 1.8rem;
   font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-/* Mensagens de erro e sucesso */
+/* Mensagens */
 .error, .success {
   text-align: center;
-  font-size: 1rem;
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  color: #fff;
-}
-
-.error {
-  background-color: #e74c3c;
-}
-
-.success {
-  background-color: #2ecc71;
-}
-
-/* Formulário de Adicionar Seção */
-.add-section-form {
-  margin-bottom: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.add-section-form input {
-  width: 100%;
-  max-width: 500px;
-  padding: 12px;
+  padding: 8px;
+  border-radius: 6px;
   margin-bottom: 15px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.9rem;
+}
+.error { background-color: #ff6b6b; color: white; }
+.success { background-color: #2ecc71; color: white; }
+
+/* Adicionar Seção */
+.add-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.add-section input {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 0.9rem;
   transition: border-color 0.3s ease;
 }
 
-.add-section-form input:focus {
-  border-color: #007bff;
+.add-section input:focus {
+  border-color: #3498db;
   outline: none;
 }
 
-.add-section-form button {
-  padding: 12px 30px;
-  background-color: #007bff;
+.add-section button {
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #3498db, #2980b9);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-size: 0.9rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.add-section-form button:disabled {
-  background-color: #ccc;
+.add-section button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.add-section button:disabled {
+  background: #bdc3c7;
   cursor: not-allowed;
 }
 
-.add-section-form button:hover:enabled {
-  background-color: #0056b3;
-}
-
-/* Lista de Seções */
-.sections-list {
-  margin-top: 40px;
-}
-
-.section {
-  background-color: #e6e6e6;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-.section-flex{
+/* Grid de Seções */
+.sections-grid {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.section h3 {
-  font-size: 1.8rem;
-  color: #333;
-  margin-bottom: 15px;
+.section-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Cabeçalho da Seção */
+.section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 15px;
 }
 
-.section button {
-  background-color: #f39c12;
-  color: white;
+.section-header h3 {
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.section-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.section-actions button {
+  padding: 6px 12px;
   border: none;
-  border-radius: 5px;
-  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 0.85rem;
   cursor: pointer;
-  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
-.section button:hover {
-  background-color: #e67e22;
+.section-actions button:first-child {
+  background-color: #f1c40f;
+  color: white;
 }
 
-.delete-section-btn {
+.section-actions button:first-child:hover {
+  background-color: #d4ac0d;
+}
+
+.section-actions button:last-child {
   background-color: #e74c3c;
   color: white;
-  border: none;
-  padding: 8px 20px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
 }
 
-.delete-section-btn:hover {
+.section-actions button:last-child:hover {
   background-color: #c0392b;
+}
+
+/* Formulário de Edição de Seção */
+.edit-section {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.edit-section input {
+  flex: 1;
+  max-width: 300px;
+  padding: 8px;
+  border: 2px solid #dfe6e9;
+  border-radius: 6px;
+}
+
+.edit-section button {
+  padding: 8px 15px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+/* Botão Adicionar Box */
+.add-box-btn {
+  width: 100%;
+  max-width: 200px;
+  padding: 8px;
+  background: linear-gradient(45deg, #9b59b6, #8e44ad);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin: 0 auto 15px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.add-box-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
 }
 
 /* Formulário de Adicionar Box */
 .add-box-form {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: #ecf0f1;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .add-box-form input,
 .add-box-form textarea {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #dfe6e9;
+  border-radius: 6px;
+  font-size: 0.9rem;
 }
 
-.add-box-form input:focus,
-.add-box-form textarea:focus {
-  border-color: #007bff;
-  outline: none;
+.add-box-form textarea {
+  min-height: 80px;
+  resize: vertical;
 }
 
 .add-box-form button {
-  padding: 12px 30px;
-  background-color: #28a745;
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(45deg, #27ae60, #219653);
   color: white;
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.add-box-form button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.add-box-form button:hover:enabled {
-  background-color: #218838;
-}
-
-/* Boxes */
-.boxes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.box {
-  width: 88%;
-  max-width: 300px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  position: relative;
-  text-align: center !important;
-  gap: 20px;
-}
-
-/* Boxes */
-.box img {
-  width: 200px;  /* Definindo a largura para 500px */
-  height: 500px; /* Definindo a altura para 500px */
-  object-fit: cover;
   border-radius: 8px;
 }
 
-.box h3 {
+/* Grid de Boxes */
+.boxes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px); /* Largura fixa de 300px */
+  gap: 15px;
+  justify-content: center;
+}
+
+.box-card {
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  width: 300px; /* Largura fixa */
   text-align: center;
+}
+
+.box-card img {
   width: 100%;
-  display: block;
-  margin: 0 auto;
-  font-size: 22px;
-  margin-top: 20px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 8px;
 }
 
-.box h4 {
-  font-size: 1.2rem;
-  color: #333;
-  margin-top: 15px;
-  text-align: center;
+.box-card h4 {
+  font-size: 1.1rem;
+  color: #34495e;
+  margin-bottom: 8px;
 }
 
-.box p {
-  font-size: 0.95rem;
-  color: #666;
-  margin-top: 10px;
+.box-card p {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 10px;
 }
 
-.box button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #dc3545;
+.box-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.box-actions button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.box-actions button:first-child {
+  background-color: #3498db;
+  color: white;
+}
+
+.box-actions button:first-child:hover {
+  background-color: #2980b9;
+}
+
+.box-actions button:last-child {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.box-actions button:last-child:hover {
+  background-color: #c0392b;
+}
+
+/* Edição de Box */
+.edit-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-box input,
+.edit-box textarea {
+  padding: 8px;
+  border: 2px solid #dfe6e9;
+  border-radius: 6px;
+}
+
+.edit-box button {
+  padding: 8px;
+  background-color: #2ecc71;
   color: white;
   border: none;
-  border-radius: 10%;
-  width: 100px;
-  height: 30px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease;
-}
-
-.box button:hover {
-  background-color: #c82333;
+  border-radius: 6px;
 }
 
 /* Botão Salvar Tudo */
-button:disabled {
-  background-color: #cccccc3f;
+.save-all-btn {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  margin: 20px auto 0;
+  padding: 12px;
+  background: linear-gradient(45deg, #e67e22, #d35400);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.save-all-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.save-all-btn:disabled {
+  background: #bdc3c7;
   cursor: not-allowed;
 }
 
-button {
-  padding: 12px 30px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  width: 100%;
-  transition: background-color 0.3s ease;
+/* Responsividade */
+@media (max-width: 768px) {
+  .edit-boxes-container {
+    margin: 15px;
+    padding: 10px;
+  }
+
+  .add-section {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .add-section input {
+    width: 100%;
+    max-width: none;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .boxes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .box-card {
+    width: 100%;
+  }
 }
 
-@media (max-width: 768px) {
-  .box {
-    max-width: 100%;
+@media (max-width: 480px) {
+  .edit-boxes-container h2 {
+    font-size: 1.5rem;
   }
 
-  .edit-boxes {
-    padding: 20px;
+  .add-section button,
+  .add-box-form button,
+  .save-all-btn {
+    font-size: 0.9rem;
+    padding: 8px;
   }
 
-  .add-section-form input,
-  .add-box-form input,
-  .add-box-form textarea {
-    max-width: 100%;
+  .section-card {
+    padding: 10px;
+  }
+
+  .box-card img {
+    height: 100px;
+  }
+
+  .box-card {
+    width: 100%;
   }
 }

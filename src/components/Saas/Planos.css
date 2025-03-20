@@ -1,314 +1,498 @@
-/* Reset básico para consistência */
+/* Reset e Estilo Geral */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif; /* Tipografia moderna */
+    font-family: "Orbitron", sans-serif; /* Fonte futurista */
   }
   
-  /* Container principal */
-  .planos-container {
+  /* Container Principal */
+  .planos-page-container {
+    max-width: 100%;
+    margin: 0px;
+    padding: 20px;
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.05);
     min-height: 100vh;
-    background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%); /* Gradiente escuro e elegante */
-    padding: 60px 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    color: #ffffff;
-    overflow-x: hidden;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    animation: glowPulse 3s infinite alternate;
   }
   
-  /* Título principal */
-  .planos-container h2 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin-bottom: 50px;
+  @keyframes glowPulse {
+    0% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.05); }
+    100% { box-shadow: 0 20px 80px rgba(74, 144, 226, 0.2), inset 0 0 30px rgba(255, 255, 255, 0.1); }
+  }
+  
+  /* Efeito de Partículas no Fundo */
+  .planos-page-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="2" fill="rgba(255, 255, 255, 0.2)"/></svg>') repeat;
+    opacity: 0.1;
+    animation: particleMove 20s linear infinite;
+  }
+  
+  @keyframes particleMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-1000px); }
+  }
+  
+  /* Título com Animação e Gradiente Neon */
+  .planos-page-title {
+    font-size: 3rem;
+    font-weight: 900;
     text-align: center;
-    background: linear-gradient(to right, #00ddeb, #ff6b6b);
+    margin-bottom: 50px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #00ddeb, #ff007a, #00ddeb);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    letter-spacing: 1px;
-    animation: fadeIn 1s ease-in-out;
+    text-shadow: 0 0 15px rgba(0, 221, 235, 0.8), 0 0 30px rgba(255, 0, 122, 0.6);
+    animation: neonGradient 4s linear infinite, zoomInTitle 1.5s ease-out forwards;
   }
   
-  /* Lista de planos */
-  .planos-lista {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    width: 100%;
+  @keyframes neonGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
   
-  /* Card de plano */
-  .plano-card {
-    background: rgba(255, 255, 255, 0.05); /* Fundo semi-transparente */
-    border-radius: 20px;
+  @keyframes zoomInTitle {
+    0% {
+      opacity: 0;
+      transform: scale(0.5) translateY(-100px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  
+  /* Grid de Planos */
+  .planos-page-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+  }
+  
+  /* Card de Plano com Animação Futurista */
+  .planos-page-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
     padding: 30px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 360px;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(10px); /* Efeito vidro fosco */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    position: relative;
+    overflow: hidden;
+    animation: floatInCard 1s ease-out forwards;
+    animation-delay: calc(var(--card-index) * 0.3s);
   }
   
-  .plano-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  .planos-page-card:nth-child(1) { --card-index: 1; }
+  .planos-page-card:nth-child(2) { --card-index: 2; }
+  .planos-page-card:nth-child(3) { --card-index: 3; }
+  
+  @keyframes floatInCard {
+    0% {
+      opacity: 0;
+      transform: translateY(150px) rotate(-5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg);
+    }
   }
   
-  .plano-card h3 {
+  .planos-page-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 25px 70px rgba(0, 221, 235, 0.3), inset 0 0 25px rgba(255, 255, 255, 0.15);
+  }
+  
+  .planos-page-card::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, rgba(0, 221, 235, 0.2), rgba(255, 0, 122, 0.2));
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  
+  .planos-page-card:hover::after {
+    opacity: 1;
+  }
+  
+  .planos-page-card h3 {
     font-size: 1.8rem;
-    font-weight: 600;
-    color: #00ddeb; /* Azul vibrante */
-    margin-bottom: 15px;
-  }
-  
-  .plano-card .preco {
-    font-size: 1.5rem;
     font-weight: 700;
-    color: #ff6b6b; /* Vermelho suave */
-    margin-bottom: 20px;
-    letter-spacing: 0.5px;
+    color: #fff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   }
   
-  .plano-card ul {
+  .planos-page-preco {
+    font-size: 1.6rem;
+    font-weight: 600;
+    background: linear-gradient(45deg, #00ddeb, #ff007a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px rgba(0, 221, 235, 0.6);
+  }
+  
+  /* Descrição */
+  .planos-page-descricao {
     list-style: none;
     margin-bottom: 25px;
   }
   
-  .plano-card ul li {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin: 10px 0;
+  .planos-page-descricao li {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
     position: relative;
-    padding-left: 25px;
+    padding-left: 30px;
+    transition: color 0.3s ease, transform 0.3s ease;
   }
   
-  .plano-card ul li::before {
+  .planos-page-descricao li:hover {
+    transform: translateX(5px);
+  }
+  
+  /* Itens Disponíveis (com "✔" Verde Neon) */
+  .planos-page-descricao li:not(.planos-page-unavailable)::before {
     content: "✔";
-    color: #00ddeb;
+    color: #00ff99;
+    font-size: 1.6rem;
+    font-weight: bold;
     position: absolute;
     left: 0;
-    font-size: 1.2rem;
+    text-shadow: 0 0 15px rgba(0, 255, 153, 0.8);
   }
   
-  /* Botão do card */
-  .plano-card button {
-    background: linear-gradient(45deg, #00ddeb, #007bff);
-    border: none;
-    border-radius: 50px;
-    padding: 12px 30px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #ffffff;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 221, 235, 0.4);
+  /* Itens Não Disponíveis no Free (com "✘" Vermelho Neon) */
+  .planos-page-unavailable {
+    color: #ff4d4d;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
   }
   
-  .plano-card button:hover {
-    background: linear-gradient(45deg, #007bff, #00ddeb);
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 221, 235, 0.6);
-  }
-  
-  /* Container do formulário */
-  .formulario-container {
-    margin-top: 60px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 500px;
-    width: 100%;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    animation: slideUp 0.5s ease-in-out;
-  }
-  
-  .formulario-container h3 {
+  .planos-page-unavailable::before {
+    content: "✘";
+    color: #ff4d4d;
     font-size: 1.6rem;
-    font-weight: 600;
-    color: #00ddeb;
-    text-align: center;
-    margin-bottom: 30px;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    text-shadow: 0 0 15px rgba(255, 77, 77, 0.8);
   }
   
-  /* Estilo do formulário */
-  .formulario-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .formulario-container input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 15px;
-    font-size: 1rem;
-    color: #ffffff;
-    transition: all 0.3s ease;
-  }
-  
-  .formulario-container input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  
-  .formulario-container input:focus {
-    border-color: #00ddeb;
-    background: rgba(255, 255, 255, 0.1);
-    outline: none;
-    box-shadow: 0 0 10px rgba(0, 221, 235, 0.3);
-  }
-  
-  /* Botão do formulário */
-  .formulario-container button {
-    background: linear-gradient(45deg, #ff6b6b, #ff4757);
+  /* Botão Selecionar */
+  .planos-page-card button {
+    padding: 14px 35px;
+    background: linear-gradient(45deg, #00ddeb, #ff007a);
+    color: #fff;
     border: none;
     border-radius: 50px;
-    padding: 15px;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #ffffff;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+    box-shadow: 0 5px 20px rgba(0, 221, 235, 0.4);
   }
   
-  .formulario-container button:hover {
-    background: linear-gradient(45deg, #ff4757, #ff6b6b);
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+  .planos-page-card button:hover {
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 15px 40px rgba(255, 0, 122, 0.6);
+    background: linear-gradient(45deg, #ff007a, #00ddeb);
   }
+  
+  /* Formulário com Animação Futurista */
+  .planos-page-form {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 25px;
+    margin: 40px auto;
+    max-width: 650px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: pulseInForm 1.2s ease-out forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  @keyframes pulseInForm {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotateX(-20deg);
+    }
+    50% {
+      transform: scale(1.05) rotateX(5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotateX(0deg);
+    }
+  }
+  
+  .planos-page-form h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
+  
+  .planos-page-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+  }
+  
+  .planos-page-form input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .planos-page-form input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .planos-page-form input:focus {
+    border-color: #00ddeb;
+    box-shadow: 0 0 15px rgba(0, 221, 235, 0.5);
+    outline: none;
+  }
+  
+  .planos-page-form button {
+    padding: 16px;
+    background: linear-gradient(45deg, #00ddeb, #ff007a);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+    box-shadow: 0 5px 20px rgba(0, 221, 235, 0.4);
+  }
+  
+  .planos-page-form button:hover {
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 15px 40px rgba(255, 0, 122, 0.6);
+    background: linear-gradient(45deg, #ff007a, #00ddeb);
+  }
+  
+  /* Mensagem de Boas-Vindas */
+  .mensagem-boas-vindas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px auto;
+    padding: 30px;
+    max-width: 650px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInMessage 1s ease-out forwards;
+  }
+  
+  @keyframes fadeInMessage {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .mensagem-boas-vindas {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #00ddeb, #ff007a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 15px rgba(0, 221, 235, 0.8);
+  }
+  
+  .mensagem-agradecimento {
+    font-size: 1.2rem;
+    color: #00ff99; /* Verde neon */
+    text-shadow: 0 0 10px rgba(0, 255, 153, 0.8);
+    text-align: center;
+    max-width: 80%;
+  }
+  
+  /* Animação de Confetes */
+  .confetti-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .confetti-animation::before,
+  .confetti-animation::after,
+  .confetti-animation span:nth-child(odd)::before,
+  .confetti-animation span:nth-child(even)::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #00ddeb;
+    border-radius: 50%;
+    animation: confettiFall 3s linear infinite;
+  }
+  
+  .confetti-animation::after {
+    background: #ff007a;
+    animation-delay: 0.5s;
+  }
+  
+  .confetti-animation span:nth-child(odd)::before {
+    background: #00ff99;
+    animation-delay: 1s;
+  }
+  
+  .confetti-animation span:nth-child(even)::after {
+    background: #ff4d4d;
+    animation-delay: 1.5s;
+  }
+  
+  @keyframes confettiFall {
+    0% {
+      opacity: 1;
+      transform: translateY(-100%) translateX(0) rotate(0deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(100vh) translateX(calc(50vw - 50%)) rotate(720deg);
+    }
+  }
+  
+  .confetti-animation span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .confetti-animation span:nth-child(1) { left: 10%; }
+  .confetti-animation span:nth-child(2) { left: 30%; }
+  .confetti-animation span:nth-child(3) { left: 50%; }
+  .confetti-animation span:nth-child(4) { left: 70%; }
+  .confetti-animation span:nth-child(5) { left: 90%; }
   
   /* Footer */
-  .planos-footer {
-    margin-top: auto; /* Empurra o footer para o final da página */
-    padding: 20px 0;
-    width: 100%;
+  .planos-page-footer {
+    margin-top: auto;
+    padding: 25px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.03);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
   
-  .planos-footer p {
-    font-size: 0.9rem;
+  .planos-page-footer p {
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.7);
-    letter-spacing: 0.5px;
-  }
-  
-  /* Animações */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   }
   
   /* Responsividade */
   @media (max-width: 768px) {
-    .planos-container h2 {
-      font-size: 2rem;
+    .planos-page-container {
+      padding: 25px;
     }
   
-    .planos-lista {
-      grid-template-columns: 1fr;
-      padding: 0 10px;
+    .planos-page-grid {
+      flex-direction: column;
+      align-items: center;
     }
   
-    .plano-card {
-      padding: 20px;
+    .planos-page-card {
+      width: 100%;
+      max-width: 360px;
     }
   
-    .plano-card h3 {
-      font-size: 1.6rem;
-    }
-  
-    .plano-card .preco {
-      font-size: 1.3rem;
-    }
-  
-    .plano-card ul li {
-      font-size: 0.9rem;
-    }
-  
-    .formulario-container {
-      padding: 30px;
-      margin: 40px 10px 0;
-    }
-  
-    .formulario-container h3 {
-      font-size: 1.4rem;
-    }
-  
-    .planos-footer p {
-      font-size: 0.85rem;
+    .planos-page-form,
+    .mensagem-boas-vindas-container {
+      max-width: 100%;
     }
   }
   
   @media (max-width: 480px) {
-    .planos-container h2 {
-      font-size: 1.8rem;
-    }
-  
-    .plano-card {
-      padding: 15px;
-    }
-  
-    .plano-card h3 {
+    .planos-page-title {
       font-size: 1.4rem;
     }
   
-    .plano-card .preco {
-      font-size: 1.2rem;
+    .planos-page-card h3 {
+      font-size: 1.6rem;
     }
   
-    .plano-card ul li {
-      font-size: 0.85rem;
+    .planos-page-preco {
+      font-size: 1.4rem;
     }
   
-    .plano-card button {
-      padding: 10px 20px;
-      font-size: 0.9rem;
-    }
-  
-    .formulario-container {
-      padding: 20px;
-    }
-  
-    .formulario-container h3 {
-      font-size: 1.2rem;
-    }
-  
-    .formulario-container input {
-      padding: 12px;
-      font-size: 0.9rem;
-    }
-  
-    .formulario-container button {
-      padding: 12px;
+    .planos-page-descricao li {
       font-size: 1rem;
     }
   
-    .planos-footer p {
-      font-size: 0.8rem;
+    .planos-page-card button,
+    .planos-page-form button {
+      font-size: 1rem;
+      padding: 12px;
+    }
+  
+    .mensagem-boas-vindas {
+      font-size: 1.5rem;
+    }
+  
+    .mensagem-agradecimento {
+      font-size: 1rem;
     }
   }
