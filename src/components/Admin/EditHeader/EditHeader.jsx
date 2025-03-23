@@ -47,7 +47,7 @@ const AdminEditHeader = () => {
       console.log("URL retornada do Backblaze:", rawUrl); // Debug
 
       // Modificando a URL para usar o subdomínio configurado no Cloudflare
-      const cacheUrl = rawUrl.replace("https://s3.us-west-001.backblazeb2.com", "https://imagens.mabelsoft.com.br");
+      const cacheUrl = rawUrl.replace("https://s3.us-west-001.backblazeb2.com", "https://imagens.storesync.mabelsoft.com.br");
 
       return cacheUrl;
     } catch (error) {
