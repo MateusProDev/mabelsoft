@@ -3,7 +3,6 @@ import { db } from "../../../firebase/firebase"; // Certifique-se de que o camin
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import "./EditHeader.css";
 
 const AdminEditHeader = () => {
@@ -12,7 +11,7 @@ const AdminEditHeader = () => {
   const [newLogoUrl, setNewLogoUrl] = useState(""); // URL da imagem
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(""); // Nova variável para mensagem de sucesso
+  const [success, setSuccess] = useState(""); // Mensagem de sucesso
   const [image, setImage] = useState(null); // Armazena a imagem selecionada
 
   useEffect(() => {
@@ -31,14 +30,40 @@ const AdminEditHeader = () => {
     fetchHeaderData();
   }, []);
 
-  // Função de upload para o Cloudinary
+  // Função de upload para o Backblaze B2
+  const handleImageUpload = async (file) => {
+    if (!file) return null;
+
+    const formData = new FormData();
+    formData.append("images", file);
+    formData.append("productId", "header-logo"); // Usando um ID fixo para a logo
+
+    try {
+      const response = await axios.post("https://mabelsoft.com.br/api/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const rawUrl = response.data.urls[0];
+      console.log("URL retornada do Backblaze:", rawUrl); // Debug
+
+      // Modificando a URL para usar o subdomínio configurado no Cloudflare
+      const cacheUrl = rawUrl.replace("https://s3.us-west-001.backblazeb2.com", "https://imagens.mabelsoft.com.br");
+
+      return cacheUrl;
+    } catch (error) {
+      setError("Falha no upload da imagem para o Backblaze B2.");
+      console.error("Erro no upload:", error);
+      return null;
+    }
+  };
+
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
   const handleUpload = async () => {
     if (!image) {
-      alert("Por favor, selecione uma imagem!");
+      setError("Por favor, selecione uma imagem!");
       return;
     }
 
@@ -46,33 +71,23 @@ const AdminEditHeader = () => {
     setError("");
     setSuccess(""); // Limpar a mensagem de sucesso ao iniciar o processo
 
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("upload_preset", "qc7tkpck"); // Usando seu Upload Preset
-    formData.append("cloud_name", "doeiv6m4h"); // Seu Cloud Name
+    const imageUrl = await handleImageUpload(image);
 
-    try {
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/doeiv6m4h/image/upload`, // Usando seu Cloud Name
-        formData
-      );
-
-      const imageUrl = response.data.secure_url;
+    if (imageUrl) {
       setNewLogoUrl(imageUrl); // Atualiza a URL da imagem no estado
-      alert("Imagem enviada com sucesso!");
-    } catch (error) {
-      console.error("Erro ao enviar imagem:", error);
-      alert("Erro ao enviar imagem!");
-    } finally {
-      setLoading(false);
+      setSuccess("Imagem enviada com sucesso!");
+    } else {
+      setError("Erro ao enviar a imagem!");
     }
+
+    setLoading(false);
   };
 
   // Função para salvar a nova logo no Firestore
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newLogoUrl) {
-      setError("Informe a URL da imagem.");
+      setError("Faça o upload de uma imagem antes de salvar.");
       return;
     }
 
@@ -86,7 +101,7 @@ const AdminEditHeader = () => {
       await setDoc(headerRef, { logoUrl: newLogoUrl });
 
       setLogoUrl(newLogoUrl); // Atualiza o estado para exibir a nova logo
-      setSuccess("Logo atualizada com sucesso!"); // Mensagem de sucesso
+      setSuccess("Logo atualizada com sucesso!");
       setTimeout(() => navigate("/admin/dashboard"), 2000); // Redireciona após 2 segundos
     } catch (error) {
       console.error("Erro ao atualizar a logo:", error);
