@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../../../firebase/firebase"; // Certifique-se de que o caminho está correto
+import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,14 +8,13 @@ import "./EditHeader.css";
 const AdminEditHeader = () => {
   const navigate = useNavigate();
   const [logoUrl, setLogoUrl] = useState("");
-  const [newLogoUrl, setNewLogoUrl] = useState(""); // URL da imagem
+  const [newLogoUrl, setNewLogoUrl] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(""); // Mensagem de sucesso
-  const [image, setImage] = useState(null); // Armazena a imagem selecionada
+  const [success, setSuccess] = useState("");
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
-    // Busca a logo atual no Firestore
     const fetchHeaderData = async () => {
       const headerRef = doc(db, "content", "header");
       const headerDoc = await getDoc(headerRef);
@@ -30,23 +29,19 @@ const AdminEditHeader = () => {
     fetchHeaderData();
   }, []);
 
-  // Função para corrigir a URL do Backblaze B2 (forçando f005 como subdomínio)
   const fixBackblazeUrl = (url) => {
-    // Substitui qualquer subdomínio "fXXX" por "f005"
     let fixedUrl = url.replace(/f\d{3}\.backblazeb2\.com/, "f005.backblazeb2.com");
-    // Substitui espaços por "+" para o formato amigável
     fixedUrl = fixedUrl.replace(/ /g, "+");
     console.log("URL corrigida para o formato amigável com f005:", fixedUrl);
     return fixedUrl;
   };
 
-  // Função de upload para o Backblaze B2
   const handleImageUpload = async (file) => {
     if (!file) return null;
 
     const formData = new FormData();
     formData.append("images", file);
-    formData.append("productId", "header-logo"); // Usando um ID fixo para a logo
+    formData.append("productId", "header-logo");
 
     try {
       const response = await axios.post("https://mabelsoft.com.br/api/upload", formData, {
@@ -54,13 +49,17 @@ const AdminEditHeader = () => {
       });
 
       const rawUrl = response.data.urls[0];
-      console.log("URL retornada do Backblaze:", rawUrl); // Debug
-      const fixedUrl = fixBackblazeUrl(rawUrl); // Corrige a URL para usar f005
-      console.log("URL final salva:", fixedUrl); // Debug
+      console.log("URL retornada do Backblaze:", rawUrl);
+      const fixedUrl = fixBackblazeUrl(rawUrl);
+      console.log("URL final salva:", fixedUrl);
       return fixedUrl;
     } catch (error) {
-      setError("Falha no upload da imagem para o Backblaze B2.");
       console.error("Erro no upload:", error);
+      if (error.code === "ERR_NETWORK") {
+        setError("Erro de rede: Verifique a conexão ou a configuração de CORS no servidor.");
+      } else {
+        setError("Falha no upload da imagem para o Backblaze B2.");
+      }
       return null;
     }
   };
@@ -77,21 +76,18 @@ const AdminEditHeader = () => {
 
     setLoading(true);
     setError("");
-    setSuccess(""); // Limpar a mensagem de sucesso ao iniciar o processo
+    setSuccess("");
 
     const imageUrl = await handleImageUpload(image);
 
     if (imageUrl) {
-      setNewLogoUrl(imageUrl); // Atualiza a URL da imagem no estado
+      setNewLogoUrl(imageUrl);
       setSuccess("Imagem enviada com sucesso!");
-    } else {
-      setError("Erro ao enviar a imagem!");
     }
 
     setLoading(false);
   };
 
-  // Função para salvar a nova logo no Firestore
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newLogoUrl) {
@@ -101,16 +97,15 @@ const AdminEditHeader = () => {
 
     setLoading(true);
     setError("");
-    setSuccess(""); // Limpar a mensagem de sucesso ao iniciar o processo
+    setSuccess("");
 
     try {
-      // Atualiza o Firestore com a nova URL da logo
       const headerRef = doc(db, "content", "header");
       await setDoc(headerRef, { logoUrl: newLogoUrl });
 
-      setLogoUrl(newLogoUrl); // Atualiza o estado para exibir a nova logo
+      setLogoUrl(newLogoUrl);
       setSuccess("Logo atualizada com sucesso!");
-      setTimeout(() => navigate("/admin/dashboard"), 2000); // Redireciona após 2 segundos
+      setTimeout(() => navigate("/admin/dashboard"), 2000);
     } catch (error) {
       console.error("Erro ao atualizar a logo:", error);
       setError("Erro ao salvar a nova logo.");
@@ -122,33 +117,21 @@ const AdminEditHeader = () => {
   return (
     <div className="admin-edit-header">
       <h2>Editar Logo</h2>
-
-      {/* Exibe a mensagem de erro, se houver */}
       {error && <p className="admin-error">{error}</p>}
-
-      {/* Exibe a imagem atual da logo */}
       {logoUrl && <img src={logoUrl} alt="Logo Atual" className="admin-logo-preview" />}
-
-      {/* Exibe a mensagem de sucesso, se houver */}
       {success && <p className="admin-success">{success}</p>}
-
-      {/* Upload da nova logo */}
       <div>
         <input type="file" accept="image/*" onChange={handleImageChange} />
         <button onClick={handleUpload} disabled={loading}>
           {loading ? "Enviando..." : "Enviar Imagem"}
         </button>
       </div>
-
-      {/* Exibe a pré-visualização da imagem, se houver uma URL válida */}
       {newLogoUrl && (
         <div>
           <h4>Pré-visualização:</h4>
           <img src={newLogoUrl} alt="Pré-visualização" className="admin-logo-preview" />
         </div>
       )}
-
-      {/* Botão para salvar a nova logo */}
       <form onSubmit={handleSubmit}>
         <button type="submit" disabled={loading}>
           {loading ? "Salvando..." : "Salvar Logo"}
