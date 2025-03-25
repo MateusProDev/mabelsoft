@@ -12,7 +12,7 @@ const ListaPlanos = ({ selecionarPlano }) => {
         "Até 50 produtos",
         "Sem opção de domínio personalizado",
         "Sem sistema de estoque",
-        "Sistema de notas fiscais",
+        "Sem sistema de notas fiscais",
         "Suporte via FAQ",
         "Segurança SSL"
       ],
