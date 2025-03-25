@@ -8,21 +8,26 @@ const ListaPlanos = ({ selecionarPlano }) => {
       nome: "Free",
       preco: "Gratuito",
       descricao: [
+        "Site + Lojinha",
         "Até 50 produtos",
         "Sem opção de domínio personalizado",
         "Sem sistema de estoque",
+        "Sistema de notas fiscais",
         "Suporte via FAQ",
+        "Segurança SSL"
       ],
     },
     {
       nome: "Plus",
       preco: "R$ 34,99/mês",
       descricao: [
-        "Loja online completa",
+        "Site + Loja online completa",
         "Sistema de estoque incluso",
+        "Sistema de notas fiscais",
         "Domínio personalizado",
         "Suporte horário comercial",
         "Até 700 produtos",
+        "Segurança SSL",
       ],
     },
     {

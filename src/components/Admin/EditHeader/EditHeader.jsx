@@ -29,37 +29,28 @@ const AdminEditHeader = () => {
     fetchHeaderData();
   }, []);
 
-  const fixBackblazeUrl = (url) => {
-    let fixedUrl = url.replace(/f\d{3}\.backblazeb2\.com/, "f005.backblazeb2.com");
-    fixedUrl = fixedUrl.replace(/ /g, "+");
-    console.log("URL corrigida para o formato amigável com f005:", fixedUrl);
-    return fixedUrl;
-  };
-
   const handleImageUpload = async (file) => {
     if (!file) return null;
 
     const formData = new FormData();
-    formData.append("images", file);
-    formData.append("productId", "header-logo");
+    formData.append("file", file);
+    formData.append("upload_preset", "qc7tkpck"); // Substitua pelo seu Upload Preset
+    formData.append("cloud_name", "doeiv6m4h"); // Substitua pelo seu Cloud Name
 
     try {
-      const response = await axios.post("https://mabelsoft.com.br/api/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      const rawUrl = response.data.urls[0];
-      console.log("URL retornada do Backblaze:", rawUrl);
-      const fixedUrl = fixBackblazeUrl(rawUrl);
-      console.log("URL final salva:", fixedUrl);
-      return fixedUrl;
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/doeiv6m4h/image/upload", // Substitua "doeiv6m4h" pelo seu Cloud Name
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      const imageUrl = response.data.secure_url;
+      console.log("URL retornada do Cloudinary:", imageUrl); // Debug
+      return imageUrl;
     } catch (error) {
       console.error("Erro no upload:", error);
-      if (error.code === "ERR_NETWORK") {
-        setError("Erro de rede: Verifique a conexão ou a configuração de CORS no servidor.");
-      } else {
-        setError("Falha no upload da imagem para o Backblaze B2.");
-      }
+      setError("Falha no upload da imagem para o Cloudinary.");
       return null;
     }
   };

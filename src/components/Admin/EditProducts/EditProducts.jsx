@@ -28,16 +28,6 @@ const EditProducts = () => {
   const [editProductKey, setEditProductKey] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState({});
 
-  // Função para corrigir a URL do Backblaze B2 (forçando f005 como subdomínio)
-  const fixBackblazeUrl = (url) => {
-    // Substitui qualquer subdomínio "fXXX" por "f005"
-    let fixedUrl = url.replace(/f\d{3}\.backblazeb2\.com/, "f005.backblazeb2.com");
-    // Substitui espaços por "+" para o formato amigável
-    fixedUrl = fixedUrl.replace(/ /g, "+");
-    console.log("URL corrigida para o formato amigável com f005:", fixedUrl);
-    return fixedUrl;
-  };
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -55,24 +45,27 @@ const EditProducts = () => {
     fetchCategories();
   }, []);
 
-  const handleImageUpload = async (file, productId) => {
-    if (!file || !productId) return null;
+  const handleImageUpload = async (file) => {
+    if (!file) return null;
 
     const formData = new FormData();
-    formData.append("images", file);
-    formData.append("productId", productId);
+    formData.append("file", file);
+    formData.append("upload_preset", "qc7tkpck"); // Substitua pelo seu Upload Preset
+    formData.append("cloud_name", "doeiv6m4h"); // Substitua pelo seu Cloud Name
 
     try {
-      const response = await axios.post("https://mabelsoft.com.br/api/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      const rawUrl = response.data.urls[0];
-      console.log("URL retornada do Backblaze:", rawUrl); // Debug
-      const fixedUrl = fixBackblazeUrl(rawUrl); // Corrige a URL para usar f005
-      console.log("URL final salva:", fixedUrl); // Debug
-      return fixedUrl;
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/doeiv6m4h/image/upload", // Substitua "doeiv6m4h" pelo seu Cloud Name
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      const imageUrl = response.data.secure_url;
+      console.log("URL retornada do Cloudinary:", imageUrl); // Debug
+      return imageUrl;
     } catch (error) {
-      setError("Falha no upload da imagem para o Backblaze B2.");
+      setError("Falha no upload da imagem para o Cloudinary.");
       console.error("Erro no upload:", error);
       return null;
     }
@@ -124,9 +117,9 @@ const EditProducts = () => {
 
     setLoading(true);
 
-    const imageUrl = await handleImageUpload(image, name);
+    const imageUrl = await handleImageUpload(image);
     const additionalImageUrls = await Promise.all(
-      additionalImages.map((file) => handleImageUpload(file, name))
+      additionalImages.map((file) => handleImageUpload(file))
     );
 
     if (imageUrl) {
@@ -210,10 +203,10 @@ const EditProducts = () => {
 
     let imageUrl = product.imageUrl;
     if (newProduct.image && typeof newProduct.image !== "string") {
-      imageUrl = await handleImageUpload(newProduct.image, newProduct.name);
+      imageUrl = await handleImageUpload(newProduct.image);
     }
     const additionalImageUrls = await Promise.all(
-      newProduct.additionalImages.map((file) => handleImageUpload(file, newProduct.name))
+      newProduct.additionalImages.map((file) => handleImageUpload(file))
     );
 
     updatedCategories[categoryKey].products[newProduct.name] = {
