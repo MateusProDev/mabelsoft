@@ -13,7 +13,7 @@ const ListaPlanos = ({ selecionarPlano }) => {
         "Sem opção de domínio personalizado",
         "Sem sistema de estoque",
         "Suporte via FAQ",
-        "Segurança SSL"
+        "Certificado de Segurança SSL",
       ],
     },
     {
