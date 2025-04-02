@@ -21,6 +21,7 @@ const ListaPlanos = ({ selecionarPlano }) => {
       preco: "R$ 39,99/mês",
       descricao: [
         "Site + Loja completa",
+        "Domínio Personalizado",
         "Sistema de estoque",
         "Sistema de vendas",
         "Relatórios Simples",
@@ -35,7 +36,6 @@ const ListaPlanos = ({ selecionarPlano }) => {
         "Tudo do plano Plus +",
         "Cadastro de clientes",
         "Sistema de cupons",
-        "Domínio personalizado",
         "Relatórios Avançados",
         "Suporte 24h",
         "Produtos Ilimitados",
