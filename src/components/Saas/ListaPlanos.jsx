@@ -8,7 +8,7 @@ const ListaPlanos = ({ selecionarPlano }) => {
       nome: "Free",
       preco: "Gratuito",
       descricao: [
-        "Site + lojinha (Até 30 produtos)",
+        "Site + Loja (até 30 produtos)",
         "Subdomínio padrão (ex: sualoja.mabelsoft.com.br)",
         "Sem sistema de estoque",
         "Sem sistema de vendas",
@@ -21,7 +21,7 @@ const ListaPlanos = ({ selecionarPlano }) => {
       nome: "Plus",
       preco: "R$ 49,90/mês",
       descricao: [
-        "Site + Loja completa (até 500 produtos)",
+        "Site + Loja (até 500 produtos)",
         "Domínio Personalizado",
         "Sistema de estoque",
         "Sistema de vendas",
