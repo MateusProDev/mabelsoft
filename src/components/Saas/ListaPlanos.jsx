@@ -40,7 +40,6 @@ const ListaPlanos = ({ selecionarPlano }) => {
         "Sistema de cupons e promoções",
         "Relatórios Avançados",
         "Suporte 24h",
-        "Produtos Ilimitados",
         "Prioridade em campanhas de marketing",
         "Certificado de Segurança SSL",
         "Para negócios que querem profissionalizar suas vendas!",
