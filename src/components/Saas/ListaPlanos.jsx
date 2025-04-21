@@ -9,6 +9,7 @@ const ListaPlanos = ({ selecionarPlano }) => {
       preco: "Gratuito",
       descricao: [
         "Site + Loja (até 30 produtos)",
+        "Integração com WhatsApp",
         "Subdomínio padrão (ex: sualoja.mabelsoft.com.br)",
         "Sem sistema de estoque",
         "Sem sistema de vendas",
