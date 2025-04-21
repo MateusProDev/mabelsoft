@@ -21,7 +21,7 @@ const ListaPlanos = ({ selecionarPlano }) => {
       nome: "Plus",
       preco: "R$ 49,90/mês",
       descricao: [
-        "Site + Loja (até 500 produtos)",
+        "Site + Loja (até 300 produtos)",
         "Domínio Personalizado",
         "Sistema de estoque",
         "Sistema de vendas",
