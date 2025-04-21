@@ -37,10 +37,8 @@ const ListaPlanos = ({ selecionarPlano }) => {
       descricao: [
         "Tudo do plano Plus +",
         "Produtos Ilimitados",
-        "Sistema de cupons e promoções",
         "Relatórios Avançados",
         "Suporte 24h",
-        "Prioridade em campanhas de marketing",
         "Certificado de Segurança SSL",
         "Para negócios que querem profissionalizar suas vendas!",
       ],
