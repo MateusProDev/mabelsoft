@@ -27,6 +27,7 @@ const ListaPlanos = ({ selecionarPlano }) => {
         "Sistema de vendas",
         "Relatórios Simples",
         "Sistema de notas fiscais",
+        "Integração com WhatsApp",
         "Certificado SSL",
         "Perfeito para pequenos negócios que querem crescer!",
       ],
